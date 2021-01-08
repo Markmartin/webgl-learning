@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exercise</title>
+</head>
+
+<body>
+    <!-- ch02 -->
+    <canvas id="drawRectangle" width="400" width="400"></canvas>
+    <canvas id="webgl" width="400" height="400"></canvas>
+    <canvas id="point1" width="400" height="400"></canvas>
+    <canvas id="point2" width="400" height="400"></canvas>
+    <canvas id="points" width="400" height="400"></canvas>
+    <canvas id="color-points" width="400" height="400"></canvas>
+
+    <!-- ch03 -->
+    <canvas id="multi-points" width="400" height="400"></canvas>
+    <canvas id="triangle" width="400" height="400"></canvas>
+    <canvas id="multi-triangle" width="400" height="400"></canvas>
+    <canvas id="translated-triangle" width="400" height="400"></canvas>
+    <canvas id="rotated-triangle" width="400" height="400"></canvas>
+    <canvas id="rotated-triangle-matrix" width="400" height="400"></canvas>
+
+    <!-- ch04 -->
+    <canvas id="rotated-triangle-matrix4" width="400" height="400"></canvas>
+    <canvas id="rotated-translated-triangle" width="400" height="400"></canvas>
+    <canvas id="rotating-triangle" width="400" height="400"></canvas>
+    <canvas id="rotating-translated-triangle" width="400" height="400"></canvas>
+
+    <!-- ch05 -->
+    <canvas id="multi-attribute-size" width="400" height="400"></canvas>
+    <canvas id="multi-attribute-size-interleaved" width="400" height="400"></canvas>
+    <canvas id="multi-attribute-color" width="400" height="400"></canvas>
+    <canvas id="colored-triangle" width="400" height="400"></canvas>
+    <canvas id="triangle-frag-coord" width="400" height="400"></canvas>
+    <canvas id="texure-quad" width="400" height="400"></canvas>
+    <canvas id="multi-texure" width="400" height="400"></canvas>
+
+    <!-- ch07 -->
+    <canvas id="look-at-triangles" width="400" height="400"></canvas>
+    <canvas id="look-at-rotated-triangles" width="400" height="400"></canvas>
+    <canvas id="look-at-rotated-triangles-mv-matrix" width="400" height="400"></canvas>
+    <canvas id="look-at-triangles-with-keys" width="400" height="400"></canvas>
+
+    <!-- base utils -->
+    <script src="./lib/webgl-debug.js"></script>
+    <script src="./lib/webgl-utils.js"></script>
+    <script src="./lib/cuon-utils.js"></script>
+    <script src="./lib/cuon-matrix.js"></script>
+
+    <!-- ch02 -->
+    <script src="./ch02/drawRectangle.js"></script>
+    <script src="./ch02/helloCanvas.js"></script>
+    <script src="./ch02/helloPoint1.js"></script>
+    <script src="./ch02/helloPoint2.js"></script>
+    <script src="./ch02/clickPoints.js"></script>
+    <script src="./ch02/colorPoints.js"></script>
+
+    <!-- ch03 -->
+    <script src="./ch03/multiPoints.js"></script>
+    <script src="./ch03/drawTriangle.js"></script>
+    <script src="./ch03/drawMultiTriangle.js"></script>
+    <script src="./ch03/translatedTriangle.js"></script>
+    <script src="./ch03/rotatedTriangle.js"></script>
+    <script src="./ch03/rotatedTriangle_Matrix.js"></script>
+
+    <!-- ch04 -->
+    <script src="./ch04/rotatedTriangle_Matrix4.js"></script>
+    <script src="./ch04/rotatedTranslatedTriangle.js"></script>
+    <script src="./ch04/rotatingTriangle.js"></script>
+    <script src="./ch04/rotatingTranslatedTriangle.js"></script>
+
+    <!-- ch05 -->
+    <script src="./ch05/multiAttributeSize.js"></script>
+    <script src="./ch05/multiAttributeSize_Interleaved.js"></script>
+    <script src="./ch05/multiAttributeColor.js"></script>
+    <script src="./ch05/coloredTriangle.js"></script>
+    <script src="./ch05/drawTriangle_FragCoord.js"></script>
+    <script src="./ch05/texureQuad.js"></script>
+    <script src="./ch05/multiTexure.js"></script>
+
+    <!-- ch07 -->
+    <script src="./ch07/lookAtTriangles.js"></script>
+    <script src="./ch07/lookAtRotatedTriangles.js"></script>
+    <script src="./ch07/lookAtRotatedTriangles_mvMatrix.js"></script>
+    <script src="./ch07/lookAtTrianglesWithKeys.js"></script>
+
+    <script>
+        window.onload = function () {
+            // // ch02
+            // drawRectangle()
+            // helloCanvas()
+            // drawPoint1()
+            // drawPoint2()
+            // drawPoints()
+            // drawColorPoints()
+            // // ch03
+            // drawMultiPoints()
+            // drawTriangle()
+            // drawMultiTriangle()
+            // translatedTriangle()
+            // rotatedTriangle()
+            // rotatedTriangleMatrix()
+            // // ch04
+            // rotatedTriangleMatrix4()
+            // rotatedTranslatedTriangle()
+            // rotatingTriangle()
+            // rotatingTranslatedTriangle()
+            // ch05
+            multiAttributeSize()
+            multiAttributeSizeInterleaved()
+            multiAttributeColor()
+            coloredTriangle()
+            drawTriangleFragCoord()
+            texureQuad()
+            multiTexure()
+            // ch07
+            lookAtTriangles()
+            lookAtRotatedTriangles()
+            lookAtRotatedTriangles_mvMatrix()
+            lookAtTrianglesWithKeys()
+        }
+    </script>
+</body>
+
+</html>
