@@ -9,41 +9,45 @@
 
 <body>
     <!-- ch02 -->
-    <canvas id="drawRectangle" width="400" width="400"></canvas>
+    <!-- <canvas id="drawRectangle" width="400" width="400"></canvas>
     <canvas id="webgl" width="400" height="400"></canvas>
     <canvas id="point1" width="400" height="400"></canvas>
     <canvas id="point2" width="400" height="400"></canvas>
     <canvas id="points" width="400" height="400"></canvas>
-    <canvas id="color-points" width="400" height="400"></canvas>
+    <canvas id="color-points" width="400" height="400"></canvas> -->
 
     <!-- ch03 -->
-    <canvas id="multi-points" width="400" height="400"></canvas>
+    <!-- <canvas id="multi-points" width="400" height="400"></canvas>
     <canvas id="triangle" width="400" height="400"></canvas>
     <canvas id="multi-triangle" width="400" height="400"></canvas>
     <canvas id="translated-triangle" width="400" height="400"></canvas>
     <canvas id="rotated-triangle" width="400" height="400"></canvas>
-    <canvas id="rotated-triangle-matrix" width="400" height="400"></canvas>
+    <canvas id="rotated-triangle-matrix" width="400" height="400"></canvas> -->
 
     <!-- ch04 -->
-    <canvas id="rotated-triangle-matrix4" width="400" height="400"></canvas>
+    <!-- <canvas id="rotated-triangle-matrix4" width="400" height="400"></canvas>
     <canvas id="rotated-translated-triangle" width="400" height="400"></canvas>
     <canvas id="rotating-triangle" width="400" height="400"></canvas>
-    <canvas id="rotating-translated-triangle" width="400" height="400"></canvas>
+    <canvas id="rotating-translated-triangle" width="400" height="400"></canvas> -->
 
     <!-- ch05 -->
-    <canvas id="multi-attribute-size" width="400" height="400"></canvas>
+    <!-- <canvas id="multi-attribute-size" width="400" height="400"></canvas>
     <canvas id="multi-attribute-size-interleaved" width="400" height="400"></canvas>
     <canvas id="multi-attribute-color" width="400" height="400"></canvas>
     <canvas id="colored-triangle" width="400" height="400"></canvas>
     <canvas id="triangle-frag-coord" width="400" height="400"></canvas>
     <canvas id="texure-quad" width="400" height="400"></canvas>
-    <canvas id="multi-texure" width="400" height="400"></canvas>
+    <canvas id="multi-texure" width="400" height="400"></canvas> -->
 
     <!-- ch07 -->
     <canvas id="look-at-triangles" width="400" height="400"></canvas>
     <canvas id="look-at-rotated-triangles" width="400" height="400"></canvas>
     <canvas id="look-at-rotated-triangles-mv-matrix" width="400" height="400"></canvas>
     <canvas id="look-at-triangles-with-keys" width="400" height="400"></canvas>
+    <canvas id="ortho-view" width="400" height="400"></canvas>
+    <canvas id="look-at-triangles-with-keys-view-volume" width="400" height="400"></canvas>
+    <canvas id="ortho-view-half-size" width="400" height="400"></canvas>
+    <canvas id="perspective-view" width="400" height="400"></canvas>
 
     <!-- base utils -->
     <script src="./lib/webgl-debug.js"></script>
@@ -87,6 +91,11 @@
     <script src="./ch07/lookAtRotatedTriangles.js"></script>
     <script src="./ch07/lookAtRotatedTriangles_mvMatrix.js"></script>
     <script src="./ch07/lookAtTrianglesWithKeys.js"></script>
+    <script src="./ch07/orthoView.js"></script>
+    <script src="./ch07/lookAtTrianglesWithKeys_ViewVolume.js"></script>
+    <script src="./ch07/orthoView_halfSize.js"></script>
+    <script src="./ch07/perspectiveView.js"></script>
+
 
     <script>
         window.onload = function () {
@@ -110,18 +119,22 @@
             // rotatingTriangle()
             // rotatingTranslatedTriangle()
             // ch05
-            multiAttributeSize()
-            multiAttributeSizeInterleaved()
-            multiAttributeColor()
-            coloredTriangle()
-            drawTriangleFragCoord()
-            texureQuad()
-            multiTexure()
+            // multiAttributeSize()
+            // multiAttributeSizeInterleaved()
+            // multiAttributeColor()
+            // coloredTriangle()
+            // drawTriangleFragCoord()
+            // texureQuad()
+            // multiTexure()
             // ch07
             lookAtTriangles()
             lookAtRotatedTriangles()
             lookAtRotatedTriangles_mvMatrix()
             lookAtTrianglesWithKeys()
+            orthoView()
+            lookAtTrianglesWithKeys_ViewVolume()
+            orthoView_halfSize()
+            perspectiveView()
         }
     </script>
 </body>

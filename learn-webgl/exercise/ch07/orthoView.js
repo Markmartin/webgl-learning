@@ -1,30 +1,30 @@
-function lookAtTriangles() {
+function orthoView() {
   /** @type {HTMLCanvasElement} */
-  let canvas = document.getElementById('look-at-triangles')
+  let canvas = document.getElementById('ortho-view')
 
   /** @type {WebGL2RenderingContext} */
   let gl = getWebGLContext(canvas, true)
 
   // Vertex shader program
   var VSHADER_SOURCE = `
-    attribute vec4 a_Position;
-    attribute vec4 a_Color;
-    uniform mat4 u_ViewMatrix;
-    varying vec4 v_Color;
-    void main() {
-        gl_Position = u_ViewMatrix * a_Position;
+      attribute vec4 a_Position;
+      attribute vec4 a_Color;
+      uniform mat4 u_ProjMatrix;
+      varying vec4 v_Color;
+      void main() {
+        gl_Position = u_ProjMatrix * a_Position;
         v_Color = a_Color;
-    }
-    `
+      }
+      `
 
   // Fragment shader program
   var FSHADER_SOURCE = `
-    precision mediump float;
-    varying vec4 v_Color;
-    void main() {
-        gl_FragColor = v_Color;
-    }
-    `
+      precision mediump float;
+      varying vec4 v_Color;
+      void main() {
+          gl_FragColor = v_Color;
+      }
+      `
 
   var vertex_shader = gl.createShader(gl.VERTEX_SHADER)
   if (vertex_shader) {
@@ -48,7 +48,7 @@ function lookAtTriangles() {
   }
 
   var verticesColors = new Float32Array([
-    // Vertex coordinates and color(RGBA)
+    // Vertex coordinates and color
     0.0,
     0.5,
     -0.4,
@@ -68,39 +68,39 @@ function lookAtTriangles() {
     0.4,
     0.4,
 
-    0.5,
-    0.4,
+    0.7,
+    0.2,
     -0.2,
     1.0,
     0.4,
     0.4, // The middle yellow one
-    -0.5,
-    0.4,
+    -0.7,
+    0.2,
     -0.2,
     1.0,
     1.0,
     0.4,
     0.0,
-    -0.6,
+    0.0,
     -0.2,
     1.0,
     1.0,
     0.4,
 
     0.0,
-    0.5,
+    0.3,
     0.0,
     0.4,
     0.4,
     1.0, // The front blue one
-    -0.5,
-    -0.5,
+    -0.3,
+    -0.3,
     0.0,
     0.4,
     0.4,
     1.0,
-    0.5,
-    -0.5,
+    0.3,
+    -0.3,
     0.0,
     1.0,
     0.4,
@@ -122,17 +122,49 @@ function lookAtTriangles() {
   gl.enableVertexAttribArray(a_Color)
 
   gl.bindBuffer(gl.ARRAY_BUFFER, null)
-  gl.clearColor(0, 0, 0, 1)
-  var u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix')
-  var viewMatrix = new Matrix4()
-  viewMatrix.setLookAt(0.2, 0.25, 0.25, 0, 0, 0, 0, 1, 0)
-  //   viewMatrix.setLookAt(0, 0, 0, 0, 0, 1, 0, 1, 0);
+  // Specify the color for clearing <canvas>
+  gl.clearColor(0.0, 0.0, 0.0, 1.0)
 
-  gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements)
-
+  var g_near = 0.0
+  var g_far = 0.5
+  var u_ProjMatrix = gl.getUniformLocation(gl.program, 'u_ProjMatrix')
+  var projMatrix = new Matrix4()
+  projMatrix.setOrtho(-1.0, 1.0, -1.0, 1.0, g_near, g_far)
+  gl.uniformMatrix4fv(u_ProjMatrix, false, projMatrix.elements)
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT)
 
   // Draw the rectangle
   gl.drawArrays(gl.TRIANGLES, 0, 9)
+
+  function drawNearFarTriangle() {
+    projMatrix.setOrtho(-1.0, 1.0, -1.0, 1.0, g_near, g_far)
+    gl.uniformMatrix4fv(u_ProjMatrix, false, projMatrix.elements)
+    // Clear <canvas>
+    // gl.clear(gl.COLOR_BUFFER_BIT)
+
+    // Draw the rectangle
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.drawArrays(gl.TRIANGLES, 0, 9)
+  }
+
+  document.onkeydown = function (e) {
+    if (e.code == 'ArrowRight') {
+      g_near += 0.01
+    }
+    if (e.code == 'ArrowLeft') {
+      g_near -= 0.01
+    }
+    if (e.code == 'ArrowDown') {
+      g_far += 0.01
+    }
+    if (e.code == 'ArrowUp') {
+      g_far -= 0.01
+    }
+
+    console.log(g_near + ':' + g_far)
+    drawNearFarTriangle()
+    return
+  }
 }

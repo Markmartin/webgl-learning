@@ -1,30 +1,31 @@
-function lookAtTriangles() {
+function lookAtTrianglesWithKeys_ViewVolume() {
   /** @type {HTMLCanvasElement} */
-  let canvas = document.getElementById('look-at-triangles')
+  let canvas = document.getElementById('look-at-triangles-with-keys-view-volume')
 
   /** @type {WebGL2RenderingContext} */
   let gl = getWebGLContext(canvas, true)
 
   // Vertex shader program
   var VSHADER_SOURCE = `
-    attribute vec4 a_Position;
-    attribute vec4 a_Color;
-    uniform mat4 u_ViewMatrix;
-    varying vec4 v_Color;
-    void main() {
-        gl_Position = u_ViewMatrix * a_Position;
-        v_Color = a_Color;
-    }
-    `
+        attribute vec4 a_Position;
+        attribute vec4 a_Color;
+        uniform mat4 u_ViewMatrix;
+        uniform mat4 u_ProjMatrix;
+        varying vec4 v_Color;
+        void main() {
+            gl_Position = u_ProjMatrix * u_ViewMatrix * a_Position;
+            v_Color = a_Color;
+        }
+        `
 
   // Fragment shader program
   var FSHADER_SOURCE = `
-    precision mediump float;
-    varying vec4 v_Color;
-    void main() {
-        gl_FragColor = v_Color;
-    }
-    `
+        precision mediump float;
+        varying vec4 v_Color;
+        void main() {
+            gl_FragColor = v_Color;
+        }
+        `
 
   var vertex_shader = gl.createShader(gl.VERTEX_SHADER)
   if (vertex_shader) {
@@ -123,16 +124,52 @@ function lookAtTriangles() {
 
   gl.bindBuffer(gl.ARRAY_BUFFER, null)
   gl.clearColor(0, 0, 0, 1)
+
+  var eyeX = 0.2
+  var eyxY = 0.25
+  var eyeZ = 0.25
+
+  var near = 0.0
+  var far = 2.0
+
   var u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix')
   var viewMatrix = new Matrix4()
-  viewMatrix.setLookAt(0.2, 0.25, 0.25, 0, 0, 0, 0, 1, 0)
-  //   viewMatrix.setLookAt(0, 0, 0, 0, 0, 1, 0, 1, 0);
 
-  gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements)
+  var u_ProjMatrix = gl.getUniformLocation(gl.program, 'u_ProjMatrix')
+  var projMatrix = new Matrix4()
 
-  // Clear <canvas>
-  gl.clear(gl.COLOR_BUFFER_BIT)
+  function drawTriangle() {
+    viewMatrix.setLookAt(eyeX, eyxY, eyeZ, 0, 0, 0, 0, 1, 0)
+    //   viewMatrix.setLookAt(0, 0, 0, 0, 0, 1, 0, 1, 0);
+    gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements)
 
-  // Draw the rectangle
-  gl.drawArrays(gl.TRIANGLES, 0, 9)
+    projMatrix.setOrtho(-1.0, 1.0, -1.0, 1.0, near, far)
+    gl.uniformMatrix4fv(u_ProjMatrix, false, projMatrix.elements)
+    // Clear <canvas>
+    gl.clear(gl.COLOR_BUFFER_BIT)
+
+    // Draw the rectangle
+    gl.drawArrays(gl.TRIANGLES, 0, 9)
+  }
+
+  document.onkeydown = function (e) {
+    if (e.code == 'ArrowRight') {
+      //right
+      eyeX += 0.03
+      //   eyxY += 0.01
+      //   eyeZ += 0.01
+      drawTriangle()
+      return
+    }
+
+    if (e.code == 'ArrowLeft') {
+      eyeX -= 0.03
+      //   eyxY -= 0.01
+      //   eyeZ -= 0.01
+      drawTriangle()
+      return
+    }
+  }
+
+  drawTriangle()
 }
