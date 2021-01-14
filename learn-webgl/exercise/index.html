@@ -53,6 +53,11 @@
     <canvas id="depth-buffer" width="400" height="400"></canvas>
     <canvas id="z-fighting" width="400" height="400"></canvas>
     <canvas id="hello-cube" width="400" height="400"></canvas>
+    <canvas id="colored-cube" width="400" height="400"></canvas>
+    <canvas id="colored-cube-single-color" width="400" height="400"></canvas>
+
+    <!-- ch08 -->
+    <canvas id="lighted-cube" width="400" height="400"></canvas>
 
 
     <!-- base utils -->
@@ -106,9 +111,11 @@
     <script src="./ch07/depthBuffer.js"></script>
     <script src="./ch07/zFighting.js"></script>
     <script src="./ch07/helloCube.js"></script>
+    <script src="./ch07/coloredCube.js"></script>
+    <script src="./ch07/coloredCube_singleColor.js"></script>
 
-
-
+    <!-- ch08 -->
+    <script src="./ch08/lightedCube.js"></script>
 
     <script>
         window.onload = function () {
@@ -153,6 +160,10 @@
             depthBuffer()
             zFighting()
             helloCube()
+            coloredCube()
+            coloredCube_singleColor()
+            // ch08
+            lightedCube()
         }
     </script>
 </body>

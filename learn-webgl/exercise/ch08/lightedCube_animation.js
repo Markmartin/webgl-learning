@@ -1,0 +1,1 @@
+function lightedCube_animation() {}
