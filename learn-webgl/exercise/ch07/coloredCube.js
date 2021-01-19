@@ -248,8 +248,6 @@ function coloredCube() {
     23 // back
   ])
 
-  console.log(indices.length)
-
   var vertexBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)

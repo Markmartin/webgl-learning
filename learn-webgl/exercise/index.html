@@ -40,7 +40,7 @@
     <canvas id="multi-texure" width="400" height="400"></canvas> -->
 
     <!-- ch07 -->
-    <canvas id="look-at-triangles" width="400" height="400"></canvas>
+    <!-- <canvas id="look-at-triangles" width="400" height="400"></canvas>
     <canvas id="look-at-rotated-triangles" width="400" height="400"></canvas>
     <canvas id="look-at-rotated-triangles-mv-matrix" width="400" height="400"></canvas>
     <canvas id="look-at-triangles-with-keys" width="400" height="400"></canvas>
@@ -51,14 +51,17 @@
     <canvas id="perspective-view-mvp" width="400" height="400"></canvas>
     <canvas id="perspective-view-mvp-matrix" width="400" height="400"></canvas>
     <canvas id="depth-buffer" width="400" height="400"></canvas>
-    <canvas id="z-fighting" width="400" height="400"></canvas>
+    <canvas id="z-fighting" width="400" height="400"></canvas> -->
     <canvas id="hello-cube" width="400" height="400"></canvas>
     <canvas id="colored-cube" width="400" height="400"></canvas>
     <canvas id="colored-cube-single-color" width="400" height="400"></canvas>
 
     <!-- ch08 -->
     <canvas id="lighted-cube" width="400" height="400"></canvas>
-
+    <canvas id="lighted-cube-animation" width="400" height="400"></canvas>
+    <canvas id="lighted-cube-ambient" width="400" height="400"></canvas>
+    <canvas id="lighted-translated-rotated-cube" width="400" height="400"></canvas>
+    <canvas id="point-lighted-cube" width="400" height="400"></canvas>
 
     <!-- base utils -->
     <script src="./lib/webgl-debug.js"></script>
@@ -116,6 +119,10 @@
 
     <!-- ch08 -->
     <script src="./ch08/lightedCube.js"></script>
+    <script src="./ch08/lightedCube_animation.js"></script>
+    <script src="./ch08/lightedCube_ambient.js"></script>
+    <script src="./ch08/lightedTranslatedRotatedCube.js"></script>
+    <script src="./ch08/pointLightedCube.js"></script>
 
     <script>
         window.onload = function () {
@@ -147,23 +154,27 @@
             // texureQuad()
             // multiTexure()
             // ch07
-            lookAtTriangles()
-            lookAtRotatedTriangles()
-            lookAtRotatedTriangles_mvMatrix()
-            lookAtTrianglesWithKeys()
-            orthoView()
-            lookAtTrianglesWithKeys_ViewVolume()
-            orthoView_halfSize()
-            perspectiveView()
-            perspectiveView_mvp()
-            perspectiveView_mvpMatrix()
-            depthBuffer()
-            zFighting()
+            // lookAtTriangles()
+            // lookAtRotatedTriangles()
+            // lookAtRotatedTriangles_mvMatrix()
+            // lookAtTrianglesWithKeys()
+            // orthoView()
+            // lookAtTrianglesWithKeys_ViewVolume()
+            // orthoView_halfSize()
+            // perspectiveView()
+            // perspectiveView_mvp()
+            // perspectiveView_mvpMatrix()
+            // depthBuffer()
+            // zFighting()
             helloCube()
             coloredCube()
             coloredCube_singleColor()
             // ch08
             lightedCube()
+            lightedCube_animation()
+            lightedCube_ambient()
+            lightedTranslatedRotatedCube()
+            pointLightedCube()
         }
     </script>
 </body>

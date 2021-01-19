@@ -1,6 +1,6 @@
-function coloredCube_singleColor() {
+function pointLightedCube() {
   /** @type {HTMLCanvasElement} */
-  let canvas = document.getElementById('colored-cube-single-color')
+  let canvas = document.getElementById('point-lighted-cube')
 
   /** @type {WebGL2RenderingContext} */
   let gl = getWebGLContext(canvas, true)
@@ -9,11 +9,23 @@ function coloredCube_singleColor() {
   var VSHADER_SOURCE = `
       attribute vec4 a_Position;
       attribute vec4 a_Color;
+      attribute vec4 a_Normal;
       uniform mat4 u_MvpMatrix;
+      uniform mat4 u_ModelMatrix;
+      uniform mat4 u_NormalMatrix;
+      uniform vec3 u_LightColor;
+      uniform vec3 u_LightDirection;
+      uniform vec3 u_AmbientLight;
       varying vec4 v_Color;
       void main() {
         gl_Position = u_MvpMatrix * a_Position;
-        v_Color = a_Color;
+        vec3 normal = normalize(vec3(u_NormalMatrix * a_Normal));
+        vec4 vertexPosition = u_ModelMatrix * a_Position;
+        vec3 lightDirection = normalize(u_LightPosition - vec3(vertexPosition));
+        float nDotL = max(dot(lightDirection, normal), 0.0);
+        vec3 ambient = u_AmbientLight * vec3(a_Color);
+        vec3 diffuse = u_LightColor * vec3(a_Color) * nDotL;
+        v_Color = vec4(diffuse + ambient, 1.0);
       }
       `
 
@@ -56,7 +68,7 @@ function coloredCube_singleColor() {
   //  |/      |/
   //  v2------v3
   var vertices = new Float32Array([
-    // Vertex coordinates
+    // Coordinates
     1.0,
     1.0,
     1.0,
@@ -132,83 +144,159 @@ function coloredCube_singleColor() {
   ])
 
   var colors = new Float32Array([
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0, // v0-v1-v2-v3 front(white)
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0, // v0-v3-v4-v5 right(white)
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0, // v0-v5-v6-v1 up(white)
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0, // v1-v6-v7-v2 left(white)
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0, // v7-v4-v3-v2 down(white)
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0 // v4-v7-v6-v5 back(white)
+    // Colors
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0, // v0-v1-v2-v3 front
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0, // v0-v3-v4-v5 right
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0, // v0-v5-v6-v1 up
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0, // v1-v6-v7-v2 left
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0, // v7-v4-v3-v2 down
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0 // v4-v7-v6-v5 back
+  ])
+
+  var normals = new Float32Array([
+    // Normal
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    1.0, // v0-v1-v2-v3 front
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0, // v0-v3-v4-v5 right
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0, // v0-v5-v6-v1 up
+    -1.0,
+    0.0,
+    0.0,
+    -1.0,
+    0.0,
+    0.0,
+    -1.0,
+    0.0,
+    0.0,
+    -1.0,
+    0.0,
+    0.0, // v1-v6-v7-v2 left
+    0.0,
+    -1.0,
+    0.0,
+    0.0,
+    -1.0,
+    0.0,
+    0.0,
+    -1.0,
+    0.0,
+    0.0,
+    -1.0,
+    0.0, // v7-v4-v3-v2 down
+    0.0,
+    0.0,
+    -1.0,
+    0.0,
+    0.0,
+    -1.0,
+    0.0,
+    0.0,
+    -1.0,
+    0.0,
+    0.0,
+    -1.0 // v4-v7-v6-v5 back
   ])
 
   // Indices of the vertices
   var indices = new Uint8Array([
-    // Indices of the vertices
     0,
     1,
     2,
@@ -250,18 +338,23 @@ function coloredCube_singleColor() {
   var vertexBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
-
   var a_Position = gl.getAttribLocation(gl.program, 'a_Position')
   gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0)
   gl.enableVertexAttribArray(a_Position)
-  indices
+
   var colorBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW)
-
   var a_Color = gl.getAttribLocation(gl.program, 'a_Color')
   gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 0, 0)
   gl.enableVertexAttribArray(a_Color)
+
+  var normalBuffer = gl.createBuffer()
+  gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer)
+  gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW)
+  var a_Normal = gl.getAttribLocation(gl.program, 'a_Normal')
+  gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0)
+  gl.enableVertexAttribArray(a_Normal)
 
   var indexBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
@@ -271,10 +364,20 @@ function coloredCube_singleColor() {
   var mvpMatrix = new Matrix4()
   mvpMatrix.setPerspective(30, 1, 1, 100)
   mvpMatrix.lookAt(3, 3, 7, 0, 0, 0, 0, 1, 0)
-
   gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix.elements)
 
-  gl.clearColor(0.0, 0.0, 0.0, 1.0)
+  var u_LightColor = gl.getUniformLocation(gl.program, 'u_LightColor')
+  gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0)
+
+  var u_LightDirection = gl.getUniformLocation(gl.program, 'u_LightDirection')
+  var lightDirection = new Vector3([0.5, 3.0, 4.0])
+  lightDirection.normalize()
+  gl.uniform3fv(u_LightDirection, lightDirection.elements)
+
+  var u_AmbientLight = gl.getUniformLocation(gl.program, 'u_AmbientLight')
+  gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2)
+
+  gl.clearColor(0, 0, 0, 1)
   gl.enable(gl.DEPTH_TEST)
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
