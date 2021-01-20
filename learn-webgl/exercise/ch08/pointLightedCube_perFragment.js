@@ -1,42 +1,47 @@
-function pointLightedCube() {
+function pointLightedCube_perFragment() {
   /** @type {HTMLCanvasElement} */
-  let canvas = document.getElementById('point-lighted-cube')
+  let canvas = document.getElementById('point-lighted-cube-per-fragment')
 
   /** @type {WebGL2RenderingContext} */
   let gl = getWebGLContext(canvas, true)
 
   // Vertex shader program
   var VSHADER_SOURCE = `
-      attribute vec4 a_Position;
-      attribute vec4 a_Color;
-      attribute vec4 a_Normal;
-      uniform mat4 u_MvpMatrix;
-      uniform mat4 u_ModelMatrix;
-      uniform mat4 u_NormalMatrix;
-      uniform vec3 u_LightColor;
-      uniform vec3 u_LightPosition;
-      uniform vec3 u_AmbientLight;
-      varying vec4 v_Color;
-      void main() {
-        gl_Position = u_MvpMatrix * a_Position;
-        vec3 normal = normalize(vec3(u_NormalMatrix * a_Normal));
-        vec4 vertexPosition = u_ModelMatrix * a_Position;
-        vec3 lightDirection = normalize(u_LightPosition - vec3(vertexPosition));
-        float nDotL = max(dot(lightDirection, normal), 0.0);
-        vec3 diffuse = u_LightColor * vec3(a_Color) * nDotL;
-        vec3 ambient = u_AmbientLight * vec3(a_Color);
-        v_Color = vec4(diffuse + ambient, 1.0);
-      }
-      `
+        attribute vec4 a_Position;
+        attribute vec4 a_Color;
+        attribute vec4 a_Normal;
+        uniform mat4 u_MvpMatrix;
+        uniform mat4 u_ModelMatrix;
+        uniform mat4 u_NormalMatrix;
+        varying vec4 v_Color;
+        varying vec3 v_Normal;
+        varying vec3 v_Position;
+        void main() {
+          gl_Position = u_MvpMatrix * a_Position;
+          v_Position = vec3(u_ModelMatrix * a_Position);
+          v_Normal = normalize(vec3(u_NormalMatrix * a_Normal));
+          v_Color = a_Color;
+        }
+        `
 
   // Fragment shader program
   var FSHADER_SOURCE = `
-      precision mediump float;
-      varying vec4 v_Color;
-      void main() {
-          gl_FragColor = v_Color;
-      }
-      `
+        precision mediump float;
+        uniform vec3 u_LightColor;
+        uniform vec3 u_LightPosition;
+        uniform vec3 u_AmbientLight;
+        varying vec3 v_Normal;
+        varying vec3 v_Position;
+        varying vec4 v_Color;
+        void main() {
+            vec3 normal = normalize(v_Normal);
+            vec3 lightDirection = normalize(u_LightPosition - v_Position);
+            float nDotL = max(dot(lightDirection, normal), 0.0);
+            vec3 diffuse = u_LightColor * vec3(v_Color) * nDotL;
+            vec3 ambient = u_AmbientLight * vec3(v_Color);
+            gl_FragColor = vec4(diffuse + ambient, v_Color.a);
+        }
+        `
 
   var vertex_shader = gl.createShader(gl.VERTEX_SHADER)
   if (vertex_shader) {
@@ -335,6 +340,7 @@ function pointLightedCube() {
   var vertexBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
+
   var a_Position = gl.getAttribLocation(gl.program, 'a_Position')
   gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0)
   gl.enableVertexAttribArray(a_Position)
@@ -342,6 +348,7 @@ function pointLightedCube() {
   var colorBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW)
+
   var a_Color = gl.getAttribLocation(gl.program, 'a_Color')
   gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, 0, 0)
   gl.enableVertexAttribArray(a_Color)
@@ -349,6 +356,7 @@ function pointLightedCube() {
   var normalBuffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW)
+
   var a_Normal = gl.getAttribLocation(gl.program, 'a_Normal')
   gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0)
   gl.enableVertexAttribArray(a_Normal)

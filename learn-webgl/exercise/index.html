@@ -51,10 +51,10 @@
     <canvas id="perspective-view-mvp" width="400" height="400"></canvas>
     <canvas id="perspective-view-mvp-matrix" width="400" height="400"></canvas>
     <canvas id="depth-buffer" width="400" height="400"></canvas>
-    <canvas id="z-fighting" width="400" height="400"></canvas> -->
+    <canvas id="z-fighting" width="400" height="400"></canvas>
     <canvas id="hello-cube" width="400" height="400"></canvas>
     <canvas id="colored-cube" width="400" height="400"></canvas>
-    <canvas id="colored-cube-single-color" width="400" height="400"></canvas>
+    <canvas id="colored-cube-single-color" width="400" height="400"></canvas> -->
 
     <!-- ch08 -->
     <canvas id="lighted-cube" width="400" height="400"></canvas>
@@ -62,6 +62,10 @@
     <canvas id="lighted-cube-ambient" width="400" height="400"></canvas>
     <canvas id="lighted-translated-rotated-cube" width="400" height="400"></canvas>
     <canvas id="point-lighted-cube" width="400" height="400"></canvas>
+    <canvas id="point-lighted-cube-per-fragment" width="400" height="400"></canvas>
+
+    <!-- ch09 -->
+    <canvas id="join-model" width="400" height="400"></canvas>
 
     <!-- base utils -->
     <script src="./lib/webgl-debug.js"></script>
@@ -123,6 +127,10 @@
     <script src="./ch08/lightedCube_ambient.js"></script>
     <script src="./ch08/lightedTranslatedRotatedCube.js"></script>
     <script src="./ch08/pointLightedCube.js"></script>
+    <script src="./ch08/pointLightedCube_perFragment.js"></script>
+
+    <!-- ch09 -->
+    <script src="./ch09/joinModel.js"></script>
 
     <script>
         window.onload = function () {
@@ -166,15 +174,18 @@
             // perspectiveView_mvpMatrix()
             // depthBuffer()
             // zFighting()
-            helloCube()
-            coloredCube()
-            coloredCube_singleColor()
+            // helloCube()
+            // coloredCube()
+            // coloredCube_singleColor()
             // ch08
             lightedCube()
             lightedCube_animation()
             lightedCube_ambient()
             lightedTranslatedRotatedCube()
             pointLightedCube()
+            pointLightedCube_perFragment()
+            // ch09
+            joinModel()
         }
     </script>
 </body>
