@@ -11,7 +11,7 @@ function joinModel() {
     vec4 color = vec4(1.0, 0.4, 0.0, 1.0);
     vec3 normal = normalize((u_NormalMatrix * a_Normal).xyz);
     float nDotL = max(dot(normal, lightDirection), 0.0);
-    v_Color = vec4(color.rgb * nDotL + vec3(0.1), color.a);
+    v_Color = vec4(color.rgb * nDotL + vec3(0.2), color.a);
   }
   `
 
